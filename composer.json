@@ -1,0 +1,17 @@
+{
+    "name": "hound026063/task-forge",
+    "require": {
+        "egulias/email-validator": "^4.0"
+    },
+    "autoload": {
+        "psr-4": {
+            "Hound026063\\TaskForge\\": "src/"
+        }
+    },
+    "authors": [
+        {
+            "name": "externalPointerVariable",
+            "email": "vicky986847@gmail.com"
+        }
+    ]
+}
