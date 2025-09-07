@@ -17,6 +17,10 @@ use App\Core\Router;
 $uri = parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH);
 $method = $_SERVER['REQUEST_METHOD'];
 
+// Strip base path from URI using environment variable
+$basePath = $_ENV['BASE_URL'] ?? '';
+$uri = preg_replace("#^{$basePath}#", '', $uri);
+
 // Route the request
 $router = new Router();
 $response = $router->handle($uri, $method);
@@ -32,5 +36,3 @@ if (is_array($response) && isset($response['view'])) {
 } else {
     echo $response;
 }
-
-?>
