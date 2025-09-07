@@ -6,6 +6,7 @@ use App\Controllers\DashboardController;
 class Router {
     public function handle(string $uri, string $method): array {
         $uri = rtrim($uri, '/');
+        echo $uri;
 
         if ($uri === '/dashboard' && $method === 'GET') {
             return (new DashboardController)->index();
