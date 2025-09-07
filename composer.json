@@ -5,7 +5,7 @@
     },
     "autoload": {
         "psr-4": {
-            "Hound026063\\TaskForge\\": "src/"
+            "App\\": "src/"
         }
     },
     "authors": [
