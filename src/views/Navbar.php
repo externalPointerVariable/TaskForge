@@ -8,7 +8,7 @@
       <li><a href="/employees" class="hover:text-blue-300">Employees</a></li>
       <li><a href="/tasks" class="hover:text-blue-300">Tasks</a></li>
       <li><a href="/login" class="hover:text-blue-300">Login</a></li>
-      <li><a href="/login" class="hover:text-blue-300">LogOut</a></li>
+      <li><a href="/login" class="hover:text-blue-300">Logout</a></li>
     </ul>
   </div>
 </nav>
