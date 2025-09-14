@@ -4,10 +4,11 @@
       <a href="/" class="hover:text-gray-300">Task<span class="text-blue-500">Forge</span></a>
     </div>
     <ul class="flex space-x-6 text-sm font-medium">
-      <li><a href="/dashboard" class="hover:text-blue-300">Dashboard</a></li>
+      <li><a href="/dashboard" class="hover:text-blue-300">Profile</a></li>
       <li><a href="/employees" class="hover:text-blue-300">Employees</a></li>
       <li><a href="/tasks" class="hover:text-blue-300">Tasks</a></li>
       <li><a href="/login" class="hover:text-blue-300">Login</a></li>
+      <li><a href="/login" class="hover:text-blue-300">LogOut</a></li>
     </ul>
   </div>
 </nav>
