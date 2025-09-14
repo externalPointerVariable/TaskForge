@@ -2,7 +2,8 @@
     "name": "hound026063/task-forge",
     "require": {
         "egulias/email-validator": "^4.0",
-        "vlucas/phpdotenv": "^5.6"
+        "vlucas/phpdotenv": "^5.6",
+        "symfony/polyfill-iconv": "^1.33"
     },
     "autoload": {
         "psr-4": {

@@ -4,20 +4,25 @@
   <meta charset="UTF-8">
   <title>TaskForge</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <link href="Assets/css/Main.css" rel="stylesheet">
-  <link rel="shortcut icon" href="Assets/favicon.png" type="image/x-icon">
+  <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+  <link rel="shortcut icon" href="../src/Assets/favicon.png" type="image/x-icon">
+  <style>
+    body {
+      background-image: url('../src/Assets/background-image.jpg');
+      background-size: cover;
+      background-position: center;
+      background-repeat: no-repeat;
+    }
+  </style>
 </head>
-<body class="bg-gray-100 text-gray-900">
-  <header class="bg-white shadow p-4">
-    <h1 class="text-2xl font-bold">TaskForge</h1>
+<body class="text-gray-900">
+  <header class="bg-gray-800 bg-opacity-90 text-white px-6 py-4 shadow">
+    <?php include "Navbar.php"; ?>
   </header>
 
-  <main class="p-6">
-    <?php echo $content ?? ''; ?>
+  <main class="p-6 bg-white bg-opacity-80 rounded-lg shadow max-w-4xl mx-auto mt-10">
+    <?php echo $content ?? 'Error Loading Content'; ?>
   </main>
 
-  <footer>
-    <h1>This is Taskforge footer</h1>
-  </footer>
 </body>
 </html>
