@@ -29,5 +29,6 @@
   </div>
 </main>
 <?php
-$content = ob_get_clean();
-require __DIR__ . '/layout.php';
+  $content = ob_get_clean();
+  require __DIR__ . '/Layout.php';
+?>
