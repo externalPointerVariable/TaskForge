@@ -1,39 +1,50 @@
 <?php ob_start(); ?>
-<section class="flex items-center justify-center px-6 py-12">
-  <div class="bg-white bg-opacity-90 backdrop-blur-md rounded-xl shadow-xl max-w-md w-full p-8">
-    <h1 class="text-3xl font-bold text-gray-900 mb-6 text-center">Create Your <span class="text-blue-500">Account</span></h1>
+<main class="flex items-center justify-center p-4">
+  <div class="w-full max-w-md p-8 rounded-xl shadow-2xl bg-gray-800/70 backdrop-blur-lg border border-gray-700">
+    <h1 class="text-4xl font-extrabold text-white text-center mb-2">
+      Create Your
+      <span class="text-blue-500">Account</span>
+    </h1>
+    <p class="text-gray-400 text-center mb-8">
+      Start your journey with TaskForge
+    </p>
 
-    <form action="/register" method="POST" class="space-y-4">
+    <form action="/register" method="POST" class="space-y-6">
       <div>
-        <label for="name" class="block text-sm font-medium text-gray-700">Full Name</label>
+        <label for="name" class="sr-only">Full Name</label>
         <input type="text" id="name" name="name" required
-               class="mt-1 block w-full px-4 py-2 border border-gray-300 rounded-md focus:ring-blue-500 focus:border-blue-500">
+          class="block w-full px-4 py-3 rounded-md border-0 bg-gray-700 text-gray-200 placeholder-gray-400 focus:ring-2 focus:ring-inset focus:ring-blue-500 sm:text-sm"
+          placeholder="Full Name">
       </div>
 
       <div>
-        <label for="email" class="block text-sm font-medium text-gray-700">Email Address</label>
+        <label for="email" class="sr-only">Email Address</label>
         <input type="email" id="email" name="email" required
-               class="mt-1 block w-full px-4 py-2 border border-gray-300 rounded-md focus:ring-blue-500 focus:border-blue-500">
+          class="block w-full px-4 py-3 rounded-md border-0 bg-gray-700 text-gray-200 placeholder-gray-400 focus:ring-2 focus:ring-inset focus:ring-blue-500 sm:text-sm"
+          placeholder="Email Address">
       </div>
 
       <div>
-        <label for="password" class="block text-sm font-medium text-gray-700">Password</label>
+        <label for="password" class="sr-only">Password</label>
         <input type="password" id="password" name="password" required
-               class="mt-1 block w-full px-4 py-2 border border-gray-300 rounded-md focus:ring-blue-500 focus:border-blue-500">
+          class="block w-full px-4 py-3 rounded-md border-0 bg-gray-700 text-gray-200 placeholder-gray-400 focus:ring-2 focus:ring-inset focus:ring-blue-500 sm:text-sm"
+          placeholder="Password">
       </div>
 
       <button type="submit"
-              class="w-full bg-blue-600 text-white py-2 px-4 rounded-md hover:bg-blue-700 transition font-semibold">
+        class="w-full flex justify-center py-3 px-4 border border-transparent rounded-full shadow-sm text-lg font-bold text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 transition duration-300 transform hover:scale-105">
         Register
       </button>
     </form>
 
-    <p class="mt-6 text-sm text-center text-gray-600">
+    <div class="mt-8 text-center text-sm text-gray-400">
       Already have an account?
-      <a href="/login" class="text-blue-600 hover:underline">Log in</a>
-    </p>
+      <a href="/login" class="font-medium text-blue-500 hover:text-blue-400">
+        Log in
+      </a>
+    </div>
   </div>
-</section>
+</main>
 <?php
 $content = ob_get_clean();
 require __DIR__ . '/Layout.php';

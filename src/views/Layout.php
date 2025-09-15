@@ -20,7 +20,7 @@
     <?php include "Navbar.php"; ?>
   </header>
 
-  <main class="max-w-4xl mx-auto mt-10">
+  <main class="max-w-auto mx-auto mt-10">
     <?php echo $content ?? 'Error Loading Content'; ?>
   </main>
 
