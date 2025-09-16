@@ -36,3 +36,5 @@ if (is_array($response) && isset($response['view'])) {
 } else {
     echo $response;
 }
+
+?>
