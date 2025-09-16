@@ -14,8 +14,7 @@ $tasks = [
     <h2 class="text-2xl font-bold text-white mb-6">Assigned <span class="text-blue-500">Tasks</span> 📃</h2>
     <ul class="space-y-4">
       <?php foreach ($tasks as $task): 
-        // Determine color based on status
-        $statusClass = 'bg-gray-400'; // Default
+        $statusClass = 'bg-gray-400'; 
         switch ($task['status']) {
           case 'Completed':
             $statusClass = 'bg-green-600';
