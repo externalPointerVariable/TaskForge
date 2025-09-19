@@ -6,7 +6,7 @@ use PDOException;
 
 class Database {
     private PDO $connection;
-
+    // Neede to changed to postgrs format before pushing it to the production
     public function __construct(string $dbPath) {
         try {
             $this->connection = new PDO("sqlite:" . $dbPath);
