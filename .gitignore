@@ -1,5 +1,8 @@
-# CakePHP 3
+# Ignore environment config
 .env
+
+# CakePHP 3
+
 /vendor/*
 /config/app.php
 
