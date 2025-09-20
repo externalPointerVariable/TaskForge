@@ -11,13 +11,12 @@ require_once __DIR__ . '/../src/Config/Bootstrap.php';
 
 use App\Core\Router;
 use App\Core\Database;
-use APP\Helpers\Schema;
+use App\Helpers\Schema;
 
 // Setting up the database and creating first schema
 $schema = new Schema();
 $database = new Database();
-$pdo = $database->getConnection();
-$pdo->setQuery($schema);
+$database->setQuery($schema->getSchema());
 
 // Normalize URI
 $uri = parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH);
