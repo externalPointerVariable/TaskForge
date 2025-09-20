@@ -16,7 +16,8 @@ use App\Helpers\Schema;
 // Setting up the database and creating first schema
 $schema = new Schema();
 $database = new Database();
-$database->setQuery($schema->getSchema());
+$pdo = $database->getConnection();
+$pdo->exec($schema->getSchema());
 
 // Normalize URI
 $uri = parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH);

@@ -18,8 +18,12 @@ $dotenv->load();
 try {
     $database = new Database();
     $pdo = $database->getConnection();
-    echo $pdo->exec("SELECT name FROM sqlite_master WHERE type='table' ORDER BY name;");
+    $stmt = $pdo->query("SELECT name FROM sqlite_master WHERE type='table' ORDER BY name");
+    $tables = $stmt->fetchAll(PDO::FETCH_COLUMN);
 
+    echo "<pre>";
+    print_r($tables);
+    echo "</pre>";
 } catch (PDOException $e) {
     echo "<h2 style='color:red;'>❌ Connection failed:</h2>";
     echo "<pre>" . htmlspecialchars($e->getMessage()) . "</pre>";
