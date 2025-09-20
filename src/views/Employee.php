@@ -1,5 +1,5 @@
 <?php ob_start(); ?>
-<main class="min-h-screen p-4 sm:p-6 lg:p-8">
+<main class="p-4 sm:p-6 lg:p-8">
   <div class="max-w-[1200px] mx-auto flex flex-col md:flex-row gap-8">
 
     <aside class="md:w-1/4 w-full p-6 bg-gray-900 rounded-xl shadow-lg border border-gray-700">

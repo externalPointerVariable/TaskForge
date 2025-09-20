@@ -7,7 +7,7 @@ class Router {
     public function handle(string $uri, string $method): array {
         $uri = rtrim($uri, '/');
 
-        if ($uri === '/' || $uri === '') {
+        if ($uri === '/' || $uri === '' || $uri === '/index.php') {
            return[
             'view' => 'Home'
            ];

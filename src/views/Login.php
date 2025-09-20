@@ -8,7 +8,7 @@
             to your TaskForge account
         </p>
 
-        <form action="/login" method="POST" class="space-y-6">
+        <form action=<?=$_ENV['BASE_URL'].'/login'?> method="POST" class="space-y-6">
             <div>
                 <label for="email" class="sr-only">Email address</label>
                 <input id="email" name="email" type="email" autocomplete="email" required
@@ -39,7 +39,7 @@
 
         <div class="mt-8 text-center text-sm text-gray-400">
             Don't have an account?
-            <a href="/register" class="font-medium text-blue-500 hover:text-blue-400">
+            <a href=<?=$_ENV['BASE_URL'].'/register'?> class="font-medium text-blue-500 hover:text-blue-400">
                 Sign up
             </a>
         </div>

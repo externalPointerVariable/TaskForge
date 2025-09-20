@@ -10,11 +10,11 @@
       Track assignments, manage employees, and streamline your workflow—all in one place.
     </p>
     <div class="flex flex-col sm:flex-row justify-center space-y-4 sm:space-y-0 sm:space-x-4 mb-16">
-      <a href="/dashboard" class="group relative inline-flex items-center justify-center px-8 py-3 overflow-hidden text-white font-semibold rounded-full bg-blue-600 hover:bg-blue-700 transition duration-300 transform hover:scale-105 shadow-lg">
+      <a href=<?=$_ENV['BASE_URL'].'/dashboard'?> class="group relative inline-flex items-center justify-center px-8 py-3 overflow-hidden text-white font-semibold rounded-full bg-blue-600 hover:bg-blue-700 transition duration-300 transform hover:scale-105 shadow-lg">
         <span class="absolute inset-0 bg-blue-700 opacity-0 group-hover:opacity-100 transition-opacity duration-300"></span>
         <span class="relative">Go to Dashboard</span>
       </a>
-      <a href="/employees" class="group relative inline-flex items-center justify-center px-8 py-3 overflow-hidden text-gray-300 font-semibold rounded-full border border-gray-600 hover:border-gray-500 transition duration-300 transform hover:scale-105">
+      <a href=<?=$_ENV['BASE_URL'].'/employee'?> class="group relative inline-flex items-center justify-center px-8 py-3 overflow-hidden text-gray-300 font-semibold rounded-full border border-gray-600 hover:border-gray-500 transition duration-300 transform hover:scale-105">
         <span class="absolute inset-0 bg-gray-700 opacity-0 group-hover:opacity-100 transition-opacity duration-300"></span>
         <span class="relative">View Employees</span>
       </a>
