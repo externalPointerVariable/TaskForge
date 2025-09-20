@@ -1,23 +1,48 @@
 <?php
-declare(strict_types=1);
+    declare(strict_types=1);
+    namespace App\Models;
 
-class UserModel {
-    public static function setUser(string $query): bool {
-        // Example: insert user data
-        // return $pdo->exec($query);
-        return true;
+    class UserModel {
+        public static function insert(array $data): bool {
+            global $pdo;
+            $stmt = $pdo->prepare("INSERT INTO user (name, email, password, role) VALUES (:name, :email, :password, :role)");
+            $stmt->execute([
+                ':name' => $data['name'],
+                ':email' => $data['email'],
+                ':password' => password_hash($data['password'], PASSWORD_DEFAULT),
+                ':role' => $data['role'] ?? null
+            ]);
+            return true;
+        }
+
+        public static function fetch(array $data): array {
+            global $pdo;
+            $stmt = $pdo->prepare("SELECT * FROM user WHERE email = :email");
+            $stmt->execute([':email' => $data['email']]);
+            $user = $stmt->fetch(PDO::FETCH_ASSOC);
+
+            if ($user && password_verify($data['password'], $user['password'])) {
+                return $user; 
+            }
+
+            return [];
+        }
+
+        public static function update(array $data): bool {
+            global $pdo;
+            $stmt = $pdo->prepare(" UPDATE user SET name = :name, email = :email, password = :password, role = :role WHERE id = :id ");
+            return $stmt->execute([
+                ':name'     => $data['name'],
+                ':email'    => $data['email'],
+                ':password' => password_hash($data['password'], PASSWORD_DEFAULT),
+                ':role'     => $data['role'],
+                ':id'       => $data['id']
+            ]);
+        }
+
+        public static function fetchSome(array $data): bool{
+            return true;
+        }
     }
 
-    public static function getUser(string $query): array {
-        // Example: fetch user data
-        // $stmt = $pdo->query($query);
-        // return $stmt->fetchAll(PDO::FETCH_ASSOC);
-        return [];
-    }
-
-    public static function updateUser(string $query): bool {
-        // Example: update user data
-        // return $pdo->exec($query);
-        return true;
-    }
-}
+?>
