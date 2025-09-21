@@ -34,6 +34,12 @@ class Schema{
                 created_at TEXT DEFAULT CURRENT_TIMESTAMP,
                 FOREIGN KEY (assigned_to) REFERENCES user(id) ON DELETE CASCADE
             );
+
+            CREATE TABLE IF NOT EXISTS employee_roster(
+                id INTEGER PRIMARY KEY AUTOINCREMENT,
+                manager_id INTEGER NOT NULL,
+                associated_employees_id TEXT
+            );
         ";
     }
 }

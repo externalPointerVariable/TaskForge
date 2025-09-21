@@ -1,18 +1,28 @@
 <?php
-namespace App\Controllers;
+    namespace App\Controllers;
+    use App\Models\UserTasksModel;
 
-class DashboardController {
-    public function index(): array {
-        $tasks = [
-            ["title" => "Fix login bug", "assigned_to" => "Abhishek"],
-            ["title" => "Design task UI", "assigned_to" => "Jane"],
-            ["title" => "Optimize database", "assigned_to" => "Ravi"]
-        ];
+    class DashboardController {
+        public function assignTask(array $data): bool {
+            return UserTasksModel::insert([
+                'title'        => $data['title'],
+                'description'  => $data['description'],
+                'assigned_to'  => $data['assigned_to']
+            ]);
+        }
 
-        return [
-            'view' => 'dashboard',
-            'data' => ['tasks' => $tasks]
-        ];
+        public function listTasks(int $userId): array|bool {
+            return UserTasksModel::fetchAll($userId);
+        }
+
+        public function updateTaskStatus(array $data): bool {
+            return UserTasksModel::update([
+                'id'          => $data['id'],
+                'title'       => $data['title'],
+                'description' => $data['description'],
+                'status'      => $data['status'],
+                'assigned_to' => $data['assigned_to']
+            ]);
+        }
     }
-}
 ?>
