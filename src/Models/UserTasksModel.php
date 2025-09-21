@@ -1,8 +1,9 @@
 <?php
     declare(strict_types=1);
     namespace App\Models;
+    use PDO;
 
-    class UserTaskModel{
+    class UserTasksModel{
         public static function insert(array $data): bool {
             global $pdo;
 

@@ -1,6 +1,7 @@
 <?php
     declare(strict_types=1);
     namespace App\Models;
+    use PDO;
 
     class UserModel {
         public static function insert(array $data): bool {
