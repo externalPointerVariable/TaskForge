@@ -13,7 +13,7 @@
                 'name'     => $data['name'],
                 'email'    => $data['email'],
                 'password' => $data['password'],
-                'role'     => 'Manager'
+                'role'     => $data['role'] ?? 'Manager'
             ]);
         }
 
