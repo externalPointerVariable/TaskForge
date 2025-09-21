@@ -21,7 +21,7 @@
     </div>
     <div class="mt-20 text-center">
       <p class="text-sm text-gray-500">
-        Built with <span class="inline-block transition-transform duration-300 transform hover:rotate-12">❤️</span> by
+        Built with <span class="inline-block transition-transform duration-300 transform hover:rotate-12">🚀</span> by
         <a href="https://github.com/externalPointerVariable" class="text-blue-500 font-semibold hover:underline">
           Abhishek Thakur
         </a>

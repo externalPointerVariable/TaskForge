@@ -16,7 +16,7 @@
   </style>
 </head>
 <body class="text-gray-900 min-h-screen">
-  <header class="bg-gray-800 bg-opacity-90 text-white px-6 py-4 shadow">
+  <header class="py-4">
     <?php include "Navbar.php"; ?>
   </header>
 
