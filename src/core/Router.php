@@ -1,44 +1,34 @@
 <?php
-namespace App\Core;
+    declare(strict_types=1);
+    namespace App\Core;
 
-use App\Controllers\DashboardController;
+    class Router {
+        private array $routes = [];
 
-class Router {
-    public function handle(string $uri, string $method): array {
-        $uri = rtrim($uri, '/');
-
-        if ($uri === '/' || $uri === '' || $uri === '/index.php') {
-           return[
-            'view' => 'Home'
-           ];
-        }
-        if ($uri === '/dashboard' && $method === 'GET'){
-            return (new DashboardController)->index();
-        }
-        if ($uri === '/profile'){
-            return [
-                'view' => 'Profile',
-            ];
-        }
-        if($uri === '/employee'){
-            return [
-                'view' => 'Employee',
-            ];
-        }
-        if($uri === '/login'){
-            return [
-                'view' => 'Login',
-            ];
-        }
-        if($uri === '/register'){
-            return [
-                'view' => 'Register',
-            ];
+        public function __construct() {
+            foreach (glob(__DIR__ . '/../Routes/*.php') as $file) {
+                $routes = require $file;
+                $this->routes += $routes;
+            }
         }
 
-        http_response_code(404);
-        return ['view' => 'error', 'data' => ['message' => 'Route not found']];
+        public function handle(string $uri, string $method): array {
+            $method = strtoupper($method);
+            $path = parse_url($uri, PHP_URL_PATH);
+            $path = '/' . trim($path, '/');        
+
+            if ($path === '/' || $path === '/index.php' || $path === '/public') {
+                $key = "$method /";
+            } else {
+                $key = "$method $path";
+            }
+
+            if (isset($this->routes[$key])) {
+                return $this->routes[$key]();
+            }
+
+            http_response_code(404);
+            return ['view' => 'error', 'data' => ['message' => 'Route not found']];
+        }
     }
-}
-
 ?>

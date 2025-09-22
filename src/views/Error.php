@@ -8,7 +8,7 @@
     
     <div class="text-6xl font-extrabold text-blue-500 mb-2">404</div>
 
-    <p class="text-gray-300 text-lg mb-6">The page you are looking for is not available!</p>
+    <p class="text-gray-300 text-lg mb-6"><?=$message?></p>
 
     <a href=<?=$_ENV['BASE_URL'].''?> class="w-full flex justify-center py-3 px-4 rounded-full shadow-sm text-lg font-bold text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 transition duration-300 transform hover:scale-105">
       Go Back Home
