@@ -4,8 +4,8 @@
     class ProfileRouter {
         public static function routes(): array {
             return [
-                'GET /profile'         => fn() => (new UserProfileController)->index(),
-                'POST /profile/update' => fn() => (new UserProfileController)->update($_POST),
+                'GET /profile'         => fn() => (new UserProfileController)->getUserProfile($user_id),
+                'POST /profile/update' => fn() => (new UserProfileController)->updateProfile($_POST),
             ];
         }
     }
