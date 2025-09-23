@@ -1,4 +1,8 @@
 <?php ob_start(); ?>
+<?php
+  $role = $_SESSION['user']['role'] ?? null;
+  $base = htmlspecialchars($_ENV['BASE_URL']);
+?>
 <main class="flex items-center justify-center py-20 px-4 sm:px-6 lg:px-8">
   <div class="max-w-4xl mx-auto text-center">
     <h1 class="text-5xl md:text-6xl font-extrabold text-white leading-tight mb-4 animate-fade-in-up">
@@ -9,16 +13,23 @@
       TaskForge is your all-in-one task management system for teams and individuals.
       Track assignments, manage employees, and streamline your workflow—all in one place.
     </p>
+
     <div class="flex flex-col sm:flex-row justify-center space-y-4 sm:space-y-0 sm:space-x-4 mb-16">
-      <a href=<?=$_ENV['BASE_URL'].'/dashboard'?> class="group relative inline-flex items-center justify-center px-8 py-3 overflow-hidden text-white font-semibold rounded-full bg-blue-600 hover:bg-blue-700 transition duration-300 transform hover:scale-105 shadow-lg">
-        <span class="absolute inset-0 bg-blue-700 opacity-0 group-hover:opacity-100 transition-opacity duration-300"></span>
-        <span class="relative">Go to Dashboard</span>
-      </a>
-      <a href=<?=$_ENV['BASE_URL'].'/employee'?> class="group relative inline-flex items-center justify-center px-8 py-3 overflow-hidden text-gray-300 font-semibold rounded-full border border-gray-600 hover:border-gray-500 transition duration-300 transform hover:scale-105">
-        <span class="absolute inset-0 bg-gray-700 opacity-0 group-hover:opacity-100 transition-opacity duration-300"></span>
-        <span class="relative">View Employees</span>
-      </a>
+      <?php if ($role === 'Employee' || !$role): ?>
+        <a href="<?= $base ?>/dashboard" class="group relative inline-flex items-center justify-center px-8 py-3 overflow-hidden text-white font-semibold rounded-full bg-blue-600 hover:bg-blue-700 transition duration-300 transform hover:scale-105 shadow-lg">
+          <span class="absolute inset-0 bg-blue-700 opacity-0 group-hover:opacity-100 transition-opacity duration-300"></span>
+          <span class="relative">Go to Dashboard</span>
+        </a>
+      <?php endif; ?>
+
+      <?php if ($role === 'Manager' || !$role): ?>
+        <a href="<?= $base ?>/employee" class="group relative inline-flex items-center justify-center px-8 py-3 overflow-hidden text-gray-300 font-semibold rounded-full border border-gray-600 hover:border-gray-500 transition duration-300 transform hover:scale-105">
+          <span class="absolute inset-0 bg-gray-700 opacity-0 group-hover:opacity-100 transition-opacity duration-300"></span>
+          <span class="relative">View Employees</span>
+        </a>
+      <?php endif; ?>
     </div>
+
     <div class="mt-20 text-center">
       <p class="text-sm text-gray-500">
         Built with <span class="inline-block transition-transform duration-300 transform hover:rotate-12">🚀</span> by
