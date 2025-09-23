@@ -16,7 +16,7 @@
 
             $user = UserModel::fetch(['email' => $email]);
 
-            if (!$user || !password_verify($password, $user['password'])) {
+            if (!$user || !isset($user['password']) || !password_verify($password, $user['password'])) {
                 return ['view' => 'Login', 'data' => ['message' => 'Invalid credentials']];
             }
 
@@ -34,11 +34,16 @@
                 return ['view' => 'Register', 'data' => ['message' => 'All fields are required']];
             }
 
-            $hashed = password_hash($password, PASSWORD_DEFAULT);
+            // Check if email already exists
+            $existingUser = UserModel::fetch(['email' => $email]);
+            if (!empty($existingUser)) {
+                return ['view' => 'Register', 'data' => ['message' => 'This email is already registered. Please log in.']];
+            }
+
             $success = UserModel::insert([
                 'name'     => $name,
                 'email'    => $email,
-                'password' => $hashed,
+                'password' => $password, // hashing is done in the model
                 'role'     => $role
             ]);
 
@@ -46,8 +51,7 @@
                 $user = UserModel::fetch(['email' => $email]);
 
                 if ($user && isset($user['id'])) {
-                    $profileController = new UserProfileController();
-                    $profileController->createUserProfile([
+                    (new UserProfileController())->createUserProfile([
                         'profile_url' => '',
                         'profession'  => '',
                         'user_id'     => $user['id'],
@@ -77,7 +81,7 @@
 
             $user = UserModel::fetch(['email' => $email]);
 
-            if (!$user || !password_verify($oldPassword, $user['password'])) {
+            if (!$user || !isset($user['password']) || !password_verify($oldPassword, $user['password'])) {
                 return ['view' => 'Profile', 'data' => ['message' => 'Incorrect current password']];
             }
 
@@ -85,7 +89,7 @@
                 'id'       => $user['id'],
                 'name'     => $user['name'],
                 'email'    => $user['email'],
-                'password' => password_hash($newPassword, PASSWORD_DEFAULT),
+                'password' => $newPassword, // hashing is done in the model
                 'role'     => $user['role']
             ]);
 
