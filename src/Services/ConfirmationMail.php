@@ -37,7 +37,7 @@
     Hi $name,
 
     Your account has been successfully created.
-    You can now log in and start managing your tasks.
+    You can now log in and start managing your Employees.
 
     Cheers,
     TaskForge Team

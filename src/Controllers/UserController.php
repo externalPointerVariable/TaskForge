@@ -1,8 +1,9 @@
 <?php
     namespace App\Controllers;
+
     use App\Models\UserModel;
     use App\Services\ConfirmationMail;
-    use PDO;
+    use App\Controllers\UserProfileController;
 
     class UserController {
         public function getUser(array $credentials): array {
@@ -42,6 +43,22 @@
             ]);
 
             if ($success) {
+                $user = UserModel::fetch(['email' => $email]);
+
+                if ($user && isset($user['id'])) {
+                    $profileController = new UserProfileController();
+                    $profileController->createUserProfile([
+                        'profile_url' => '',
+                        'profession'  => '',
+                        'user_id'     => $user['id'],
+                        'bio'         => '',
+                        'experience'  => '',
+                        'salary'      => '',
+                        'languages'   => '',
+                        'skills'      => ''
+                    ]);
+                }
+
                 ConfirmationMail::userCreationMail($email, $name);
                 return ['view' => 'Login', 'data' => ['message' => 'Account created. Please log in.']];
             }
