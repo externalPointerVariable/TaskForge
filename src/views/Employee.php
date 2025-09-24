@@ -94,13 +94,13 @@
                 <span class="inline-block mt-2 px-2 py-1 text-xs rounded-full
                   <?php
                     switch ($task['status']) {
-                      case 'completed':
+                      case 'Completed':
                         echo 'bg-green-600 text-white';
                         break;
-                      case 'in-progress':
+                      case 'In progress':
                         echo 'bg-yellow-500 text-black';
                         break;
-                      case 'pending':
+                      case 'Pending':
                       default:
                         echo 'bg-red-500 text-white';
                         break;
