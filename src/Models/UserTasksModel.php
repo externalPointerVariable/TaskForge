@@ -72,5 +72,15 @@ class UserTasksModel {
             ':id'           => $data['id']
         ]);
     }
+
+    public static function updateStatusOnly(int $id, string $status): bool {
+        global $pdo;
+
+        $stmt = $pdo->prepare("UPDATE tasks SET status = :status WHERE id = :id");
+        return $stmt->execute([
+            ':status' => $status,
+            ':id'     => $id
+        ]);
+    }
 }
 ?>

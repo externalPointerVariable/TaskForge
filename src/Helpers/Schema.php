@@ -29,7 +29,7 @@
                     id INTEGER PRIMARY KEY AUTOINCREMENT,
                     title TEXT NOT NULL,
                     description TEXT,
-                    status TEXT DEFAULT 'pending',
+                    status TEXT DEFAULT 'Pending',
                     assigned_to INTEGER,
                     assigned_by INTEGER,
                     created_at TEXT DEFAULT CURRENT_TIMESTAMP,

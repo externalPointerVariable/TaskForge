@@ -43,29 +43,18 @@
         }
 
         public function updateTaskStatus(array $data): array {
-            $id          = $data['id'] ?? null;
-            $title       = trim($data['title'] ?? '');
-            $description = trim($data['description'] ?? '');
-            $status      = $data['status'] ?? '';
-            $assignedTo  = $data['assigned_to'] ?? null;
-            $assignedBy  = $_SESSION['user']['id'] ?? null;
+            $id     = $data['id'] ?? null;
+            $status = $data['status'] ?? null;
 
-            if (!$id || !$title || !$description || !$status || !$assignedTo || !$assignedBy) {
-                return ['view' => 'Dashboard', 'data' => ['message' => 'All fields are required']];
+            if (!$id || !$status) {
+                return ['view' => 'Dashboard', 'data' => ['message' => 'Task ID and status are required']];
             }
 
-            $success = UserTasksModel::update([
-                'id'           => $id,
-                'title'        => $title,
-                'description'  => $description,
-                'status'       => $status,
-                'assigned_to'  => $assignedTo,
-                'assigned_by'  => $assignedBy
-            ]);
+            $success = UserTasksModel::updateStatusOnly($id, $status);
 
             return $success
-                ? ['view' => 'Dashboard', 'data' => ['message' => 'Task updated successfully']]
-                : ['view' => 'Dashboard', 'data' => ['message' => 'Failed to update task']];
+                ? ['view' => 'Dashboard', 'data' => ['message' => 'Status updated successfully']]
+                : ['view' => 'Dashboard', 'data' => ['message' => 'Failed to update status']];
         }
     }
 ?>
