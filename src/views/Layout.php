@@ -21,7 +21,6 @@
   <header class="py-4">
     <?php include "Navbar.php"; ?>
   </header>
-
   <main class="max-w-auto mx-auto mt-10">
     <?php echo $content ?? 'Error Loading Content'; ?>
   </main>

@@ -57,6 +57,11 @@
                     $managerId = $_SESSION['user']['id'] ?? 0;
                     $tasks = (new DashboardController())->listTasksAdmin($managerId)['data']['tasks'] ?? [];
 
+                    // 🔍 Debug: Print the tasks data
+                    echo "<pre>";
+                    print_r($tasks);
+                    echo "</pre>";
+
                     return ['view' => 'Tasks', 'data' => ['tasks' => $tasks]];
                 }
             ];
