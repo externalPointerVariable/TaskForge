@@ -1,14 +1,14 @@
 <?php ob_start(); ?>
 <?php
-$profile = $data['profile'] ?? [];
-$name = $_SESSION['user']['name'] ?? 'User';
-$profession = strtoupper($profile['profession'] ?? 'Not specified');
-$experience = $profile['experience'] ?? 'N/A';
-$salary = $profile['salary'] ?? 'N/A';
-$languages = explode(',', $profile['languages'] ?? '');
-$skills = explode(',', $profile['skills'] ?? '');
-$bio = $profile['bio'] ?? 'No bio available.';
-$avatar = $profile['profile_url'] ?: '../src/Assets/default-user-pfp.png';
+  $profile = $data['profile'] ?? [];
+  $name = $_SESSION['user']['name'] ?? 'User';
+  $profession = strtoupper($profile['profession'] ?? 'Not specified');
+  $experience = $profile['experience'] ?? 'N/A';
+  $salary = $profile['salary'] ?? 'N/A';
+  $languages = explode(',', $profile['languages'] ?? '');
+  $skills = explode(',', $profile['skills'] ?? '');
+  $bio = $profile['bio'] ?? 'No bio available.';
+  $avatar = $profile['profile_url'] ?: '../src/Assets/default-user-pfp.png';
 ?>
 <div class="max-w-6xl mx-auto rounded-xl shadow-xl overflow-hidden bg-gray-800/70 backdrop-blur-lg border border-gray-700 mb-4">
   <div class="flex flex-col lg:flex-row divide-y lg:divide-y-0 lg:divide-x divide-gray-700">

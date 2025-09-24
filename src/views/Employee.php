@@ -1,18 +1,20 @@
 <?php ob_start(); ?>
 <?php
-$role = $_SESSION['user']['role'] ?? null;
-$base = htmlspecialchars($_ENV['BASE_URL']);
-$employees = [];
-$tasks = [];
+  $role = $_SESSION['user']['role'] ?? null;
+  $base = htmlspecialchars($_ENV['BASE_URL']);
+  $employees = [];
+  $tasks = [];
+  $employeeNames = [];
 
-if ($role === 'Manager') {
-    $employees = $data['employees'] ?? [];
-    $tasks     = $data['tasks'] ?? [];
-}
+  if ($role === 'Manager') {
+      $employees = $data['employees'] ?? [];
+      $tasks     = $data['tasks'] ?? [];
+
+      foreach ($employees as $emp) {
+          $employeeNames[$emp['id']] = $emp['name'];
+      }
+  }
 ?>
-<!-- <pre>
-<?php print_r($_SESSION['user']['id']); ?>
-</pre> -->
 <main class="p-4 sm:p-6 lg:p-8">
   <div class="max-w-[1200px] mx-auto flex flex-col md:flex-row gap-8">
 
@@ -82,13 +84,32 @@ if ($role === 'Manager') {
           <div class="bg-gray-900 rounded-lg p-4">
             <h3 class="text-xl font-semibold text-gray-200 mb-4">Task List</h3>
             <ul class="space-y-3 text-gray-300">
-              <?php foreach ($tasks as $task): ?>
-                <li class="p-4 bg-gray-800 rounded-lg border border-gray-700">
-                  <h4 class="text-white text-lg font-semibold"><?= htmlspecialchars($task['title']) ?></h4>
-                  <p class="text-gray-400 text-sm mt-1"><?= htmlspecialchars($task['description']) ?></p>
-                  <span class="block mt-2 text-xs text-green-400">Assigned to: <?= htmlspecialchars($task['assigned_to']) ?></span>
-                </li>
-              <?php endforeach; ?>
+            <?php foreach ($tasks as $task): ?>
+              <li class="p-4 bg-gray-800 rounded-lg border border-gray-700">
+                <h4 class="text-white text-lg font-semibold"><?= htmlspecialchars($task['title']) ?></h4>
+                <p class="text-gray-400 text-sm mt-1"><?= htmlspecialchars($task['description']) ?></p>
+                <span class="block mt-2 text-xs text-green-400">
+                  Assigned to: <?= htmlspecialchars($employeeNames[$task['assigned_to']] ?? 'Unknown') ?>
+                </span>
+                <span class="inline-block mt-2 px-2 py-1 text-xs rounded-full
+                  <?php
+                    switch ($task['status']) {
+                      case 'completed':
+                        echo 'bg-green-600 text-white';
+                        break;
+                      case 'in-progress':
+                        echo 'bg-yellow-500 text-black';
+                        break;
+                      case 'pending':
+                      default:
+                        echo 'bg-red-500 text-white';
+                        break;
+                    }
+                  ?>">
+                  <?= ucfirst(htmlspecialchars($task['status'])) ?>
+                </span>
+              </li>
+            <?php endforeach; ?>
             </ul>
           </div>
         </div>
@@ -203,7 +224,6 @@ if ($role === 'Manager') {
               employeesSection.hide();
             });
 
-            // Handle Modal Opening
             addEmployeeBtn.on('click', function () {
               addEmployeeModal.removeClass('hidden');
             });
