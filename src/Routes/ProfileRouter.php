@@ -5,15 +5,18 @@
         public static function routes(): array {
             return [
                 'GET /profile' => function () {
-                    $user_id = $_SESSION['user']['id'] ?? null;
+                    $user = $_SESSION['user'] ?? null;
+                    $userId = isset($user['id']) ? (int) $user['id'] : null;
 
-                    if (!$user_id || !is_int($user_id)) {
+                    if (!$userId) {
                         return ['view' => 'Error', 'data' => ['message' => 'User not authenticated']];
                     }
 
-                    return (new UserProfileController())->getUserProfile($user_id);
-                },
+                    $controller = new UserProfileController();
+                    $response = $controller->getUserProfile($userId);
 
+                    return $response;
+                },
                 'POST /profile/update' => fn() => (new UserProfileController())->updateProfile($_POST),
             ];
         }

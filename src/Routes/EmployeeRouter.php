@@ -9,18 +9,15 @@
                     $role = $_SESSION['user']['role'] ?? null;
                     $managerId = $_SESSION['user']['id'] ?? null;
 
-                    // 🔐 Role check
                     if ($role !== 'Manager' || !$managerId) {
                         echo "<h3>🚫 Access Denied</h3>";
                         return ['view' => 'Error', 'data' => ['message' => 'Access denied. Manager role required.']];
                     }
 
-                    // ✅ Fetch employees
                     $employeeController = new EmployeeController();
                     $employeeResponse = $employeeController->fetchEmployees($managerId);
                     $employees = $employeeResponse['data']['employees'] ?? [];
 
-                    // ✅ Fetch tasks
                     $dashboardController = new DashboardController();
                     $taskResponse = $dashboardController->listTasksAdmin($managerId);
                     $tasks = $taskResponse['data']['tasks'] ?? [];
