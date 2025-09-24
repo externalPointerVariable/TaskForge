@@ -12,9 +12,12 @@
                         return ['view' => 'Error', 'data' => ['message' => 'Access denied. Manager role required.']];
                     }
 
-                    return ['view' => 'Employee'];
-                },
+                    $managerId = $_SESSION['user']['id'] ?? 0;
+                    $employees = (new EmployeeController())->fetchEmployees($managerId)['data']['employees'] ?? [];
 
+                    return ['view' => 'Employee', 'data' => ['employees' => $employees]];
+                },
+                
                 'POST /employee/add' => function () {
                     $role = $_SESSION['user']['role'] ?? null;
 
@@ -22,18 +25,16 @@
                         return ['view' => 'Error', 'data' => ['message' => 'Access denied. Manager role required.']];
                     }
 
-                    return (new EmployeeController())->addEmployee($_POST);
-                },
+                    $managerId = $_SESSION['user']['id'] ?? null;
 
-                'GET /employee/fetch' => function () {
-                    $role = $_SESSION['user']['role'] ?? null;
+                    $postData = [
+                        'manager_id' => $managerId,
+                        'name'       => trim($_POST['fullName'] ?? ''),
+                        'email'      => trim($_POST['email'] ?? ''),
+                        'password'   => $_POST['password'] ?? ''
+                    ];
 
-                    if ($role !== 'Manager') {
-                        return ['view' => 'Error', 'data' => ['message' => 'Access denied. Manager role required.']];
-                    }
-
-                    $managerId = $_SESSION['user']['id'] ?? 0;
-                    return (new EmployeeController())->fetchEmployees($managerId);
+                    return (new EmployeeController())->addEmployee($postData);
                 },
 
                 'POST /assign' => function () {
@@ -45,6 +46,19 @@
 
                     return (new DashboardController())->assignTask($_POST);
                 },
+
+                'GET /tasks' => function () {
+                    $role = $_SESSION['user']['role'] ?? null;
+
+                    if ($role !== 'Manager') {
+                        return ['view' => 'Error', 'data' => ['message' => 'Access denied. Manager role required.']];
+                    }
+
+                    $managerId = $_SESSION['user']['id'] ?? 0;
+                    $tasks = (new DashboardController())->listTasksAdmin($managerId)['data']['tasks'] ?? [];
+
+                    return ['view' => 'Tasks', 'data' => ['tasks' => $tasks]];
+                }
             ];
         }
     }

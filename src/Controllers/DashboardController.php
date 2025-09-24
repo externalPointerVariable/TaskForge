@@ -7,15 +7,17 @@
             $title       = trim($data['title'] ?? '');
             $description = trim($data['description'] ?? '');
             $assignedTo  = $data['assigned_to'] ?? null;
+            $assignedBy  = $_SESSION['user']['id'] ?? null;
 
-            if (!$title || !$description || !$assignedTo) {
+            if (!$title || !$description || !$assignedTo || !$assignedBy) {
                 return ['view' => 'Dashboard', 'data' => ['message' => 'All fields are required']];
             }
 
             $success = UserTasksModel::insert([
                 'title'        => $title,
                 'description'  => $description,
-                'assigned_to'  => $assignedTo
+                'assigned_to'  => $assignedTo,
+                'assigned_by'  => $assignedBy
             ]);
 
             return $success
@@ -31,23 +33,33 @@
                 : ['view' => 'Dashboard', 'data' => ['message' => 'No tasks found']];
         }
 
+        public function listTasksAdmin(int $managerId): array {
+            $tasks = UserTasksModel::fetchAllAdmin($managerId);
+
+            return is_array($tasks)
+                ? ['view' => 'Dashboard', 'data' => ['tasks' => $tasks]]
+                : ['view' => 'Dashboard', 'data' => ['message' => 'No tasks found']];
+        }
+
         public function updateTaskStatus(array $data): array {
             $id          = $data['id'] ?? null;
             $title       = trim($data['title'] ?? '');
             $description = trim($data['description'] ?? '');
             $status      = $data['status'] ?? '';
             $assignedTo  = $data['assigned_to'] ?? null;
+            $assignedBy  = $_SESSION['user']['id'] ?? null;
 
-            if (!$id || !$title || !$description || !$status || !$assignedTo) {
+            if (!$id || !$title || !$description || !$status || !$assignedTo || !$assignedBy) {
                 return ['view' => 'Dashboard', 'data' => ['message' => 'All fields are required']];
             }
 
             $success = UserTasksModel::update([
-                'id'          => $id,
-                'title'       => $title,
-                'description' => $description,
-                'status'      => $status,
-                'assigned_to' => $assignedTo
+                'id'           => $id,
+                'title'        => $title,
+                'description'  => $description,
+                'status'       => $status,
+                'assigned_to'  => $assignedTo,
+                'assigned_by'  => $assignedBy
             ]);
 
             return $success

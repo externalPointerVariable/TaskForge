@@ -2,6 +2,13 @@
 <?php
 $role = $_SESSION['user']['role'] ?? null;
 $base = htmlspecialchars($_ENV['BASE_URL']);
+$employees = [];
+$tasks = [];
+
+if ($role === 'Manager') {
+    $employees = $data['employees'] ?? [];
+    $tasks     = $data['tasks'] ?? [];
+}
 ?>
 <main class="p-4 sm:p-6 lg:p-8">
   <div class="max-w-[1200px] mx-auto flex flex-col md:flex-row gap-8">
@@ -34,36 +41,182 @@ $base = htmlspecialchars($_ENV['BASE_URL']);
 
     <section class="md:w-3/4 w-full p-8 bg-gray-800/50 backdrop-blur-sm rounded-xl shadow-lg border border-gray-700">
       <?php if ($role === 'Manager'): ?>
-        <h1 class="text-4xl font-extrabold text-white mb-4">Welcome to the Employee Dashboard</h1>
-        <p class="text-gray-300 text-lg mb-8">
-          Select an option from the sidebar to view employee details or task assignments. This space will dynamically render CRUD forms, task summaries, and progress indicators.
-        </p>
-
-        <div id="employees-section" class="grid grid-cols-1 sm:grid-cols-2 gap-6">
-          <div class="flex-1 p-6 rounded-lg shadow-md border-l-4 border-blue-500 bg-gray-700/50 transition duration-300 transform hover:scale-105">
-            <h3 class="text-lg font-semibold text-blue-400 mb-2">Total Employees</h3>
-            <p class="text-4xl font-extrabold text-blue-200">12</p>
+        <div id="employees-section" class="space-y-6">
+          <div class="flex justify-between items-center mb-6">
+            <h1 class="text-3xl font-bold text-white">Employee Management</h1>
+            <button id="add-employee-btn" class="bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700 transition duration-300">
+              + Add Employee
+            </button>
+          </div>
+          
+          <div class="bg-gray-900 rounded-lg p-4">
+            <h3 class="text-xl font-semibold text-gray-200 mb-4">Employee List</h3>
+            <ul class="space-y-3 text-gray-300">
+              <?php foreach ($employees as $employee): ?>
+                <li class="flex justify-between items-center p-3 bg-gray-800 rounded-lg border border-gray-700">
+                  <div>
+                    <span class="block font-medium text-white"><?= htmlspecialchars($employee['name']) ?></span>
+                    <span class="block text-sm text-gray-400"><?= htmlspecialchars($employee['email']) ?></span>
+                  </div>
+                  <div class="flex gap-2">
+                    <button class="text-sm text-blue-400 hover:text-blue-300">Edit</button>
+                    <button class="text-sm text-red-400 hover:text-red-300">Remove</button>
+                  </div>
+                </li>
+              <?php endforeach; ?>
+            </ul>
           </div>
         </div>
 
-        <div id="tasks-section" class="grid grid-cols-1 sm:grid-cols-2 gap-6 hidden">
-          <div class="flex-1 p-6 rounded-lg shadow-md border-l-4 border-green-500 bg-gray-700/50 transition duration-300 transform hover:scale-105">
-            <h3 class="text-lg font-semibold text-green-400 mb-2">Active Tasks</h3>
-            <p class="text-4xl font-extrabold text-green-200">27</p>
+        <div id="tasks-section" class="space-y-6 hidden">
+          <div class="flex justify-between items-center mb-6">
+            <h1 class="text-3xl font-bold text-white">Task Management</h1>
+            <button id="assign-task-btn" class="bg-green-600 text-white px-4 py-2 rounded-lg hover:bg-green-700 transition duration-300">
+              + Assign Task
+            </button>
+          </div>
+          
+          <div class="bg-gray-900 rounded-lg p-4">
+            <h3 class="text-xl font-semibold text-gray-200 mb-4">Task List</h3>
+            <ul class="space-y-3 text-gray-300">
+              <?php foreach ($tasks as $task): ?>
+                <li class="p-4 bg-gray-800 rounded-lg border border-gray-700">
+                  <h4 class="text-white text-lg font-semibold"><?= htmlspecialchars($task['title']) ?></h4>
+                  <p class="text-gray-400 text-sm mt-1"><?= htmlspecialchars($task['description']) ?></p>
+                  <span class="block mt-2 text-xs text-green-400">Assigned to: <?= htmlspecialchars($task['assigned_to']) ?></span>
+                </li>
+              <?php endforeach; ?>
+            </ul>
+          </div>
+        </div>
+
+        <div id="add-employee-modal" class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 hidden">
+          <div class="bg-gray-800 p-6 rounded-lg shadow-xl w-full max-w-md border border-gray-700">
+            <div class="flex justify-between items-center mb-4">
+              <h3 class="text-xl font-bold text-white">Add New Employee</h3>
+              <button class="close-modal text-gray-400 hover:text-white">&times;</button>
+            </div>
+            <form action="<?= $base ?>/employee/add" method="POST">
+              <div class="mb-4">
+                <label for="fullName" class="block text-gray-300 mb-2">Full Name</label>
+                <input type="text" id="fullName" name="fullName"
+                  class="w-full p-3 bg-gray-900 rounded-lg border border-gray-700 text-white focus:outline-none focus:ring-2 focus:ring-blue-500"
+                  required>
+              </div>
+
+              <div class="mb-4">
+                <label for="email" class="block text-gray-300 mb-2">Email</label>
+                <input type="email" id="email" name="email"
+                  class="w-full p-3 bg-gray-900 rounded-lg border border-gray-700 text-white focus:outline-none focus:ring-2 focus:ring-blue-500"
+                  required>
+              </div>
+
+              <div class="mb-6">
+                <label for="password" class="block text-gray-300 mb-2">Password</label>
+                <input type="password" id="password" name="password"
+                  class="w-full p-3 bg-gray-900 rounded-lg border border-gray-700 text-white focus:outline-none focus:ring-2 focus:ring-blue-500"
+                  required>
+              </div>
+
+              <div class="flex justify-end">
+                <button type="submit"
+                  class="bg-blue-600 text-white px-5 py-2 rounded-lg hover:bg-blue-700 transition duration-300">
+                  Add Employee
+                </button>
+              </div>
+            </form>
+          </div>
+        </div>
+
+        <div id="assign-task-modal" class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 hidden">
+          <div class="bg-gray-800 p-6 rounded-lg shadow-xl w-full max-w-md border border-gray-700">
+            <div class="flex justify-between items-center mb-4">
+              <h3 class="text-xl font-bold text-white">Assign New Task</h3>
+              <button class="close-modal text-gray-400 hover:text-white">&times;</button>
+            </div>
+            <form action="<?= $base ?>/assign" method="POST">
+              <div class="mb-4">
+                <label for="taskTitle" class="block text-gray-300 mb-2">Title</label>
+                <input type="text" id="taskTitle" name="taskTitle"
+                  class="w-full p-3 bg-gray-900 rounded-lg border border-gray-700 text-white focus:outline-none focus:ring-2 focus:ring-green-500"
+                  required>
+              </div>
+
+              <div class="mb-4">
+                <label for="taskDescription" class="block text-gray-300 mb-2">Description</label>
+                <textarea id="taskDescription" name="taskDescription" rows="4"
+                  class="w-full p-3 bg-gray-900 rounded-lg border border-gray-700 text-white focus:outline-none focus:ring-2 focus:ring-green-500"
+                  required></textarea>
+              </div>
+
+              <div class="mb-6">
+                <label for="assignedTo" class="block text-gray-300 mb-2">Assigned To</label>
+                <select id="assignedTo" name="assignedTo"
+                  class="w-full p-3 bg-gray-900 rounded-lg border border-gray-700 text-white focus:outline-none focus:ring-2 focus:ring-green-500"
+                  required>
+                  <?php foreach ($employees as $employee): ?>
+                    <option value="<?= htmlspecialchars($employee['email']) ?>">
+                      <?= htmlspecialchars($employee['name']) ?>
+                    </option>
+                  <?php endforeach; ?>
+                </select>
+              </div>
+
+              <div class="flex justify-end">
+                <button type="submit"
+                  class="bg-green-600 text-white px-5 py-2 rounded-lg hover:bg-green-700 transition duration-300">
+                  Assign Task
+                </button>
+              </div>
+            </form>
           </div>
         </div>
 
         <script>
           $(document).ready(function () {
-            $('#employees-section').show();
-            $('#tasks-section').hide();
+            const employeesSection = $('#employees-section');
+            const tasksSection = $('#tasks-section');
+            const employeesToggle = $('[data-target="employees-section"]');
+            const tasksToggle = $('[data-target="tasks-section"]');
 
-            $('.toggle-section').on('click', function (e) {
+            const addEmployeeBtn = $('#add-employee-btn');
+            const addEmployeeModal = $('#add-employee-modal');
+            const assignTaskBtn = $('#assign-task-btn');
+            const assignTaskModal = $('#assign-task-modal');
+            const closeModalBtns = $('.close-modal');
+
+            employeesSection.show();
+            tasksSection.hide();
+
+            employeesToggle.on('click', function (e) {
               e.preventDefault();
-              const targetId = $(this).data('target');
+              employeesSection.show();
+              tasksSection.hide();
+            });
 
-              $('#employees-section, #tasks-section').hide();
-              $('#' + targetId).show();
+            tasksToggle.on('click', function (e) {
+              e.preventDefault();
+              tasksSection.show();
+              employeesSection.hide();
+            });
+
+            // Handle Modal Opening
+            addEmployeeBtn.on('click', function () {
+              addEmployeeModal.removeClass('hidden');
+            });
+
+            assignTaskBtn.on('click', function () {
+              assignTaskModal.removeClass('hidden');
+            });
+
+            closeModalBtns.on('click', function () {
+              $(this).closest('.fixed').addClass('hidden');
+            });
+
+            $(document).on('click', function(e) {
+              if (e.target.id === 'add-employee-modal' || e.target.id === 'assign-task-modal') {
+                $(e.target).addClass('hidden');
+              }
             });
           });
         </script>

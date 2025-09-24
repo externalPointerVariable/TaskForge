@@ -7,40 +7,60 @@
 
     class EmployeeController {
         public function addEmployee(array $data): array {
-            $managerId  = $data['manager_id'] ?? null;
-            $employeeId = $data['employee_id'] ?? null;
-            $email      = $data['email'] ?? null;
-            $password   = $data['password'] ?? null;
+            $managerId = $_SESSION['user']['id'] ?? null;
+            $name      = trim($data['name'] ?? '');
+            $email     = trim($data['email'] ?? '');
+            $password  = $data['password'] ?? '';
 
-            if (!$managerId || !$employeeId || !$email || !$password) {
+            if (!$managerId || !$name || !$email || !$password) {
                 return ['view' => 'Dashboard', 'data' => ['message' => 'Missing required fields']];
             }
 
-            $roster = EmployeeRosterModel::fetch($managerId);
-            $employees = $roster ? $roster['associated_employees_id'] : [];
+            $userCreated = UserModel::insert([
+                'name'     => $name,
+                'email'    => $email,
+                'password' => $password,
+                'role'     => 'Employee'
+            ]);
 
-            if (in_array($employeeId, $employees)) {
-                return ['view' => 'Dashboard', 'data' => ['message' => 'Employee already added']];
+            if (!$userCreated) {
+                return ['view' => 'Dashboard', 'data' => ['message' => 'Failed to create employee']];
             }
 
-            $employees[] = $employeeId;
+            $employee = UserModel::fetchByEmail($email);
+            if (!$employee || empty($employee['id'])) {
+                return ['view' => 'Dashboard', 'data' => ['message' => 'Employee creation incomplete']];
+            }
 
-            $success = $roster
-                ? EmployeeRosterModel::update([
-                    'manager_id' => $managerId,
-                    'associated_employees_id' => $employees
-                ])
-                : EmployeeRosterModel::create([
+            $employeeId = $employee['id'];
+
+            $roster = EmployeeRosterModel::fetch($managerId);
+            $employees = [];
+
+            if ($roster) {
+                $employees = $roster['associated_employees_id'] ?? [];
+                if (in_array($employeeId, $employees)) {
+                    return ['view' => 'Dashboard', 'data' => ['message' => 'Employee already added']];
+                }
+                $employees[] = $employeeId;
+                $success = EmployeeRosterModel::update([
                     'manager_id' => $managerId,
                     'associated_employees_id' => $employees
                 ]);
+            } else {
+                $employees[] = $employeeId;
+                $success = EmployeeRosterModel::create([
+                    'manager_id' => $managerId,
+                    'associated_employees_id' => $employees
+                ]);
+            }
 
             if ($success) {
                 ConfirmationMail::employeeAdded($_SESSION['user']['name'], $email, $password);
                 return ['view' => 'Dashboard', 'data' => ['message' => 'Employee added successfully']];
             }
 
-            return ['view' => 'Dashboard', 'data' => ['message' => 'Failed to add employee']];
+            return ['view' => 'Dashboard', 'data' => ['message' => 'Failed to add employee to roster']];
         }
 
         public function fetchEmployees(int $managerId): array {
@@ -52,12 +72,11 @@
 
             $employees = [];
             foreach ($roster['associated_employees_id'] as $id) {
-                $user = UserModel::fetch(['id' => $id]);
+                $user = UserModel::fetchById($id);
                 if ($user) {
                     $employees[] = $user;
                 }
             }
-
             return ['view' => 'Dashboard', 'data' => ['employees' => $employees]];
         }
     }
