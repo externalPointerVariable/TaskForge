@@ -10,6 +10,9 @@ if ($role === 'Manager') {
     $tasks     = $data['tasks'] ?? [];
 }
 ?>
+<!-- <pre>
+<?php print_r($_SESSION['user']['id']); ?>
+</pre> -->
 <main class="p-4 sm:p-6 lg:p-8">
   <div class="max-w-[1200px] mx-auto flex flex-col md:flex-row gap-8">
 
@@ -134,41 +137,41 @@ if ($role === 'Manager') {
               <h3 class="text-xl font-bold text-white">Assign New Task</h3>
               <button class="close-modal text-gray-400 hover:text-white">&times;</button>
             </div>
-            <form action="<?= $base ?>/assign" method="POST">
-              <div class="mb-4">
-                <label for="taskTitle" class="block text-gray-300 mb-2">Title</label>
-                <input type="text" id="taskTitle" name="taskTitle"
-                  class="w-full p-3 bg-gray-900 rounded-lg border border-gray-700 text-white focus:outline-none focus:ring-2 focus:ring-green-500"
-                  required>
-              </div>
+        <form action="<?= $base ?>/assign" method="POST">
+          <div class="mb-4">
+            <label for="title" class="block text-gray-300 mb-2">Title</label>
+            <input type="text" id="title" name="title"
+              class="w-full p-3 bg-gray-900 rounded-lg border border-gray-700 text-white focus:outline-none focus:ring-2 focus:ring-green-500"
+              required>
+          </div>
 
-              <div class="mb-4">
-                <label for="taskDescription" class="block text-gray-300 mb-2">Description</label>
-                <textarea id="taskDescription" name="taskDescription" rows="4"
-                  class="w-full p-3 bg-gray-900 rounded-lg border border-gray-700 text-white focus:outline-none focus:ring-2 focus:ring-green-500"
-                  required></textarea>
-              </div>
+          <div class="mb-4">
+            <label for="description" class="block text-gray-300 mb-2">Description</label>
+            <textarea id="description" name="description" rows="4"
+              class="w-full p-3 bg-gray-900 rounded-lg border border-gray-700 text-white focus:outline-none focus:ring-2 focus:ring-green-500"
+              required></textarea>
+          </div>
 
-              <div class="mb-6">
-                <label for="assignedTo" class="block text-gray-300 mb-2">Assigned To</label>
-                <select id="assignedTo" name="assignedTo"
-                  class="w-full p-3 bg-gray-900 rounded-lg border border-gray-700 text-white focus:outline-none focus:ring-2 focus:ring-green-500"
-                  required>
-                  <?php foreach ($employees as $employee): ?>
-                    <option value="<?= htmlspecialchars($employee['email']) ?>">
-                      <?= htmlspecialchars($employee['name']) ?>
-                    </option>
-                  <?php endforeach; ?>
-                </select>
-              </div>
+          <div class="mb-6">
+            <label for="assigned_to" class="block text-gray-300 mb-2">Assigned To</label>
+            <select id="assigned_to" name="assigned_to"
+              class="w-full p-3 bg-gray-900 rounded-lg border border-gray-700 text-white focus:outline-none focus:ring-2 focus:ring-green-500"
+              required>
+              <?php foreach ($employees as $employee): ?>
+                <option value="<?= htmlspecialchars($employee['id']) ?>">
+                  <?= htmlspecialchars($employee['name']) ?>
+                </option>
+              <?php endforeach; ?>
+            </select>
+          </div>
 
-              <div class="flex justify-end">
-                <button type="submit"
-                  class="bg-green-600 text-white px-5 py-2 rounded-lg hover:bg-green-700 transition duration-300">
-                  Assign Task
-                </button>
-              </div>
-            </form>
+          <div class="flex justify-end">
+            <button type="submit"
+              class="bg-green-600 text-white px-5 py-2 rounded-lg hover:bg-green-700 transition duration-300">
+              Assign Task
+            </button>
+          </div>
+        </form>
           </div>
         </div>
 

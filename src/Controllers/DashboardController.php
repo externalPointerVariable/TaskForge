@@ -36,12 +36,17 @@
         public function listTasksAdmin(int $managerId): array {
             $tasks = UserTasksModel::fetchAllAdmin($managerId);
 
+            // 🔍 Debug: Print raw tasks array
+            echo "<h3>📦 Raw Tasks from Model:</h3><pre>";
+            print_r($tasks);
+            echo "</pre>";
+
             $response = is_array($tasks)
                 ? ['view' => 'Dashboard', 'data' => ['tasks' => $tasks]]
                 : ['view' => 'Dashboard', 'data' => ['message' => 'No tasks found']];
 
-            // 🔍 Debug: Print the response data
-            echo "<pre>";
+            // 🔍 Debug: Print final response structure
+            echo "<h3>📋 Final Response:</h3><pre>";
             print_r($response);
             echo "</pre>";
 
