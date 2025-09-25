@@ -1,31 +1,31 @@
 <?php
-declare(strict_types=1);
+    declare(strict_types=1);
 
-// Show errors for debugging
-ini_set('display_errors', '1');
-error_reporting(E_ALL);
+    // Show errors for debugging
+    ini_set('display_errors', '1');
+    error_reporting(E_ALL);
 
-// Autoload classes
-require_once __DIR__ . '/../vendor/autoload.php';
+    // Autoload classes
+    require_once __DIR__ . '/../vendor/autoload.php';
 
-use App\core\Database;
-use Dotenv\Dotenv;
+    use App\core\Database;
+    use Dotenv\Dotenv;
 
-$dotenv = Dotenv::createImmutable(__DIR__ . '/../');
-$dotenv->load();
+    $dotenv = Dotenv::createImmutable(__DIR__ . '/../');
+    $dotenv->load();
 
 
-try {
-    $database = new Database();
-    $pdo = $database->getConnection();
-    $stmt = $pdo->query("SELECT name FROM sqlite_master WHERE type='table' ORDER BY name");
-    $tables = $stmt->fetchAll(PDO::FETCH_COLUMN);
+    try {
+        $database = new Database();
+        $pdo = $database->getConnection();
+        $stmt = $pdo->query("SELECT name FROM sqlite_master WHERE type='table' ORDER BY name");
+        $tables = $stmt->fetchAll(PDO::FETCH_COLUMN);
 
-    echo "<pre>";
-    print_r($tables);
-    echo "</pre>";
-} catch (PDOException $e) {
-    echo "<h2 style='color:red;'>❌ Connection failed:</h2>";
-    echo "<pre>" . htmlspecialchars($e->getMessage()) . "</pre>";
-}
+        echo "<pre>";
+        print_r($tables);
+        echo "</pre>";
+    } catch (PDOException $e) {
+        echo "<h2 style='color:red;'>❌ Connection failed:</h2>";
+        echo "<pre>" . htmlspecialchars($e->getMessage()) . "</pre>";
+    }
 ?>

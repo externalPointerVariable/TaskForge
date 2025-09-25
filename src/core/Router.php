@@ -25,13 +25,11 @@ class Router {
         };
 
         if (isset($this->routes[$key])) {
-            // 🔐 Auth middleware
             if ($this->requiresAuth($key)) {
                 $authCheck = UserMiddleware::enforceAuth();
                 if ($authCheck) return $authCheck;
             }
 
-            // 🔐 Role middleware
             if ($role = $this->requiresRole($key)) {
                 $roleCheck = UserRoleMiddleware::enforce($role);
                 if ($roleCheck) return $roleCheck;

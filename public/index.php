@@ -35,7 +35,7 @@
     // If response is HTML, render it
     if (is_array($response) && isset($response['view'])) {
         $data = $response['data'] ?? [];
-        extract($data); // Make variables available to view
+        extract($data);
         require __DIR__ . '/../src/Views/' . $response['view'] . '.php';
     } elseif (is_array($response)) {
         header("Content-Type: application/json");
