@@ -1,6 +1,7 @@
 <?php
     declare(strict_types=1);
     namespace App\Models;
+
     use PDO;
 
     class UserTasksModel {
@@ -40,11 +41,11 @@
             return $tasks ?: false;
         }
 
-        public static function fetchAllAdmin(int $manager_id): bool|array {
+        public static function fetchAllAdmin(int $managerId): bool|array {
             global $pdo;
 
             $stmt = $pdo->prepare("SELECT * FROM tasks WHERE assigned_by = :manager_id");
-            $stmt->execute([':manager_id' => $manager_id]);
+            $stmt->execute([':manager_id' => $managerId]);
 
             $tasks = $stmt->fetchAll(PDO::FETCH_ASSOC);
             return $tasks ?: false;
@@ -55,11 +56,11 @@
 
             $stmt = $pdo->prepare("
                 UPDATE tasks
-                SET title = :title,
-                    description = :description,
-                    status = :status,
-                    assigned_to = :assigned_to,
-                    assigned_by = :assigned_by
+                SET title        = :title,
+                    description  = :description,
+                    status       = :status,
+                    assigned_to  = :assigned_to,
+                    assigned_by  = :assigned_by
                 WHERE id = :id
             ");
 

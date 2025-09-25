@@ -1,5 +1,4 @@
 <?php
-
     namespace App\Core;
 
     use PDO;
@@ -10,10 +9,18 @@
 
         public function __construct() {
             try {
-                $this->connection = new PDO('sqlite:' . '/mnt/c/Users/HOUND026063/OneDrive/Documents/Workspace/TaskForge/storage/test.db');
+                $host     = $_ENV['PGHOST'] ?? 'localhost';
+                $port     = $_ENV['DB_PORT'] ?? '5432';
+                $dbname   = $_ENV['PGDATABASE'] ?? 'taskforge';
+                $user     = $_ENV['PGUSER'] ?? 'postgres';
+                $password = $_ENV['PGPASSWORD'] ?? 'your_password';
+
+                $dsn = "pgsql:host=$host;port=$port;dbname=$dbname";
+
+                $this->connection = new PDO($dsn, $user, $password);
                 $this->connection->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
             } catch (PDOException $e) {
-                die("SQLite connection failed: " . $e->getMessage());
+                die("PostgreSQL connection failed: " . $e->getMessage());
             }
         }
 
