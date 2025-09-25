@@ -28,7 +28,7 @@
       <div class="w-full text-left border-t border-gray-700 pt-6 mt-6">
         <h2 class="text-lg font-bold text-gray-300 mb-2">General</h2>
         <ul class="text-gray-400 space-y-2">
-          <li><span class="font-medium text-white">Experience:</span> <?= htmlspecialchars($experience) ?></li>
+          <li><span class="font-medium text-white">Experience:</span> <?= htmlspecialchars($experience) ?> years</li>
           <li><span class="font-medium text-white">Salary:</span> ₹<?= htmlspecialchars($salary) ?></li>
         </ul>
       </div>
