@@ -36,7 +36,7 @@
     if (is_array($response) && isset($response['view'])) {
         $data = $response['data'] ?? [];
         extract($data);
-        require __DIR__ . '/../src/Views/' . $response['view'] . '.php';
+        require __DIR__ . '/../src/views/' . $response['view'] . '.php';
     } elseif (is_array($response)) {
         header("Content-Type: application/json");
         echo json_encode($response);
